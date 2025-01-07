@@ -1,0 +1,14 @@
+name = "SymbolicQuantumSimulator"
+uuid = "1ac55a6d-92b6-450c-a563-89c38ef317fd"
+authors = ["Vít Břichňáč <vit.brichnac@protonmail.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "Test"]
