@@ -6,5 +6,6 @@ using Aqua
     @testset "Code quality (Aqua.jl)" begin
         Aqua.test_all(SymbolicQuantumSimulator)
     end
-    # Write your tests here.
+
+    include("QuantumCircuit.jl")
 end
