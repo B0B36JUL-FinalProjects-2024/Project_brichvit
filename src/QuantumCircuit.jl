@@ -43,7 +43,7 @@ function simulate_state_vector(qc::QuantumCircuit)
 	state_vector = create_quantum_state_vector(qc)
 
 	for instruction in qc.instructions
-		apply!(instruction, state_vector)
+		apply!(instruction, state_vector, qc.qubits)
 	end
 
 	return state_vector
@@ -67,7 +67,7 @@ function simulate_unitary(qc::QuantumCircuit)
 				throw(ArgumentError("circuit contains non-unitary instructions"))
 			end
 
-			apply!(instruction, view(unitary, :, col))
+			apply!(instruction, view(unitary, :, col), qc.qubits)
 		end
 	end
 

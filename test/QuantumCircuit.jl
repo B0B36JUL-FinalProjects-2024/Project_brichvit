@@ -65,9 +65,9 @@ struct DummyInstruction <: Instruction end
 		q2 = Qubit("q2")
 		q3 = Qubit("q3")
 
-		@test SymPy.N.(simulate_unitary(QuantumCircuit(q1))) == I(2)
-		@test SymPy.N.(simulate_unitary(QuantumCircuit(q1, q2))) == I(4)
-		@test SymPy.N.(simulate_unitary(QuantumCircuit(q1, q2, q3))) == I(8)
+		@test simulate_unitary(QuantumCircuit(q1)) == 1.0I
+		@test simulate_unitary(QuantumCircuit(q1, q2)) == 1.0I
+		@test simulate_unitary(QuantumCircuit(q1, q2, q3)) == 1.0I
 
 		qc = QuantumCircuit(q1)
 		push!(qc, DummyInstruction())
