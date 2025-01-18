@@ -19,6 +19,17 @@ export UGate
 export XGate
 export YGate
 export ZGate
+export CHGate
+export CPGate
+export CRXGate
+export CRYGate
+export CRZGate
+export CSGate
+export CTGate
+export CUGate
+export CXGate
+export CYGate
+export CZGate
 
 include("Qubit.jl")
 include("Instruction.jl")
@@ -35,6 +46,18 @@ include("Gates/SingleQubit/UGate.jl")
 include("Gates/SingleQubit/XGate.jl")
 include("Gates/SingleQubit/YGate.jl")
 include("Gates/SingleQubit/ZGate.jl")
+include("Gates/MultipleQubit/ControlledGate.jl")
+include("Gates/MultipleQubit/CHGate.jl")
+include("Gates/MultipleQubit/CPGate.jl")
+include("Gates/MultipleQubit/CRXGate.jl")
+include("Gates/MultipleQubit/CRYGate.jl")
+include("Gates/MultipleQubit/CRZGate.jl")
+include("Gates/MultipleQubit/CSGate.jl")
+include("Gates/MultipleQubit/CTGate.jl")
+include("Gates/MultipleQubit/CUGate.jl")
+include("Gates/MultipleQubit/CXGate.jl")
+include("Gates/MultipleQubit/CYGate.jl")
+include("Gates/MultipleQubit/CZGate.jl")
 include("QuantumCircuit.jl")
 
 end
