@@ -30,10 +30,12 @@ export CUGate
 export CXGate
 export CYGate
 export CZGate
+export draw
 
 include("Qubit.jl")
 include("Instruction.jl")
 include("Gate.jl")
+include("Gates/SingleQubit/SingleQubitGate.jl")
 include("Gates/SingleQubit/HGate.jl")
 include("Gates/SingleQubit/IGate.jl")
 include("Gates/SingleQubit/PGate.jl")
@@ -59,5 +61,6 @@ include("Gates/MultipleQubit/CXGate.jl")
 include("Gates/MultipleQubit/CYGate.jl")
 include("Gates/MultipleQubit/CZGate.jl")
 include("QuantumCircuit.jl")
+include("Visualization/Draw.jl")
 
 end

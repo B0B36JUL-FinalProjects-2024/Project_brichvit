@@ -7,7 +7,7 @@ Rotation gate about the X axis operating on a single qubit parametrized by angle
 RX(θ) = ⎜                          ⎟
         ⎝ -i⋅sin(θ/2)     cos(θ/2) ⎠.
 """
-struct RXGate <: Gate
+struct RXGate <: SingleQubitGate
 	theta::Sym
 	qubit::Qubit
 
@@ -45,3 +45,7 @@ end
 Returns the inverse of the X-rotation gate (an X-rotation gate with the opposite angle).
 """
 inverse(gate::RXGate) = RXGate(-gate.theta, gate.qubit)
+
+get_qubit_set(gate::RXGate) = Set([gate.qubit])
+
+get_name(gate::RXGate) = "RX(" * replace(string(gate.theta), "pi" => "π") * ")"

@@ -7,7 +7,7 @@ Pauli-Z gate operating on a single qubit, represented by the matrix
 Z = ⎜       ⎟
     ⎝ 0  -1 ⎠.
 """
-struct ZGate <: Gate
+struct ZGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -31,3 +31,7 @@ end
 Returns the inverse of the Pauli-Z gate (which is the Pauli-Z gate itself, as it is hermitian).
 """
 inverse(gate::ZGate) = gate
+
+get_qubit_set(gate::ZGate) = Set([gate.qubit])
+
+get_name(gate::ZGate) = "Z"

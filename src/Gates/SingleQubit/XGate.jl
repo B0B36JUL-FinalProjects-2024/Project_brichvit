@@ -7,7 +7,7 @@ Pauli-X gate operating on a single qubit, represented by the matrix
 X = ⎜      ⎟
     ⎝ 1  0 ⎠.
 """
-struct XGate <: Gate
+struct XGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -32,3 +32,7 @@ end
 Returns the inverse of the Pauli-X gate (which is the Pauli-X gate itself, as it is hermitian).
 """
 inverse(gate::XGate) = gate
+
+get_qubit_set(gate::XGate) = Set([gate.qubit])
+
+get_name(gate::XGate) = "X"

@@ -7,7 +7,7 @@ Rotation gate about the Z axis operating on a single qubit parametrized by angle
 RZ(λ) = ⎜              ⎟
         ⎝ 0   e^(iλ/2) ⎠.
 """
-struct RZGate <: Gate
+struct RZGate <: SingleQubitGate
 	lambda::Sym
 	qubit::Qubit
 
@@ -39,3 +39,7 @@ end
 Returns the inverse of the Z-rotation gate (a Z-rotation gate with the opposite angle).
 """
 inverse(gate::RZGate) = RZGate(-gate.lambda, gate.qubit)
+
+get_qubit_set(gate::RZGate) = Set([gate.qubit])
+
+get_name(gate::RZGate) = "RZ(" * replace(string(gate.lambda), "pi" => "π") * ")"

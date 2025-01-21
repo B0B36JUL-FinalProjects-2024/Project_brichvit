@@ -7,7 +7,7 @@ Hadamard gate operating on a single qubit, represented by the matrix
 H = ⎜                 ⎟
     ⎝ √(2)/2  -√(2)/2 ⎠.
 """
-struct HGate <: Gate
+struct HGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -36,3 +36,7 @@ end
 Returns the inverse of the Hadamard gate (which is the Hadamard gate itself, as it is hermitian).
 """
 inverse(gate::HGate) = gate
+
+get_qubit_set(gate::HGate) = Set([gate.qubit])
+
+get_name(gate::HGate) = "H"

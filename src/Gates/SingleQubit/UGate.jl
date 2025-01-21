@@ -7,7 +7,7 @@ Rotation gate operating on a single qubit parametrized by Euler angles θ, ϕ an
 U(θ,ϕ,λ) = ⎜                                      ⎟
            ⎝ e^(iϕ)⋅sin(θ/2)  e^(i(ϕ+λ))⋅cos(θ/2) ⎠.
 """
-struct UGate <: Gate
+struct UGate <: SingleQubitGate
 	theta::Sym
 	phi::Sym
 	lambda::Sym
@@ -71,3 +71,7 @@ end
 Returns the inverse of the U gate (which is a U(-θ,-λ,-ϕ) gate).
 """
 inverse(gate::UGate) = UGate(-gate.theta, -gate.lambda, -gate.phi, gate.qubit)
+
+get_qubit_set(gate::UGate) = Set([gate.qubit])
+
+get_name(gate::UGate) = "U(" * replace(string(gate.theta), "pi" => "π") * "," * replace(string(gate.phi), "pi" => "π") * "," * replace(string(gate.lambda), "pi" => "π") * ")"

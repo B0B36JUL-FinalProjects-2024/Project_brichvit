@@ -7,7 +7,7 @@ T gate (√√Z gate) operating on a single qubit, represented by the matrix
 T = ⎜             ⎟
     ⎝ 0  e^(iπ/4) ⎠.
 """
-struct TGate <: Gate
+struct TGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -31,3 +31,7 @@ end
 Returns the inverse of the T gate (a P(-π/4) gate).
 """
 inverse(gate::TGate) = PGate(-PI / 4, gate.qubit)
+
+get_qubit_set(gate::TGate) = Set([gate.qubit])
+
+get_name(gate::TGate) = "T"

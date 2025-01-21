@@ -7,7 +7,7 @@ Identity gate operating on a single qubit, represented by the matrix
 I = ⎜      ⎟
     ⎝ 0  1 ⎠.
 """
-struct IGate <: Gate
+struct IGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -24,3 +24,7 @@ function apply!(_::IGate, _::AbstractVector{Sym}, _::Vector{Qubit}) end
 Returns the inverse of the identity gate (which is the identity gate itself, as it is hermitian).
 """
 inverse(gate::IGate) = gate
+
+get_qubit_set(gate::IGate) = Set([gate.qubit])
+
+get_name(gate::IGate) = "I"

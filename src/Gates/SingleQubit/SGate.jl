@@ -7,7 +7,7 @@ S gate (√Z gate) operating on a single qubit, represented by the matrix
 S = ⎜      ⎟
     ⎝ 0  i ⎠.
 """
-struct SGate <: Gate
+struct SGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -31,3 +31,7 @@ end
 Returns the inverse of the S gate (a P(-π/2) gate).
 """
 inverse(gate::SGate) = PGate(-PI / 2, gate.qubit)
+
+get_qubit_set(gate::SGate) = Set([gate.qubit])
+
+get_name(gate::SGate) = "S"

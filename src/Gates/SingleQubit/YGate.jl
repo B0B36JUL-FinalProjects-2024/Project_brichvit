@@ -7,7 +7,7 @@ Pauli-Y gate operating on a single qubit, represented by the matrix
 Y = ⎜       ⎟
     ⎝ i   0 ⎠.
 """
-struct YGate <: Gate
+struct YGate <: SingleQubitGate
 	qubit::Qubit
 end
 
@@ -33,3 +33,7 @@ end
 Returns the inverse of the Pauli-Y gate (which is the Pauli-Y gate itself, as it is hermitian).
 """
 inverse(gate::YGate) = gate
+
+get_qubit_set(gate::YGate) = Set([gate.qubit])
+
+get_name(gate::YGate) = "Y"

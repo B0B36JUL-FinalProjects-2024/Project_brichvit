@@ -7,7 +7,7 @@ Rotation gate about the Y axis operating on a single qubit parametrized by angle
 RY(θ) = ⎜                     ⎟
         ⎝ sin(θ/2)   cos(θ/2) ⎠.
 """
-struct RYGate <: Gate
+struct RYGate <: SingleQubitGate
 	theta::Sym
 	qubit::Qubit
 
@@ -45,3 +45,7 @@ end
 Returns the inverse of the Y-rotation gate (a Y-rotation gate with the opposite angle).
 """
 inverse(gate::RYGate) = RYGate(-gate.theta, gate.qubit)
+
+get_qubit_set(gate::RYGate) = Set([gate.qubit])
+
+get_name(gate::RYGate) = "RY(" * replace(string(gate.theta), "pi" => "π") * ")"

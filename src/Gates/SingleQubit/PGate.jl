@@ -7,7 +7,7 @@ Phase gate operating on a single qubit parametrized by angle θ, represented by 
 P(θ) = ⎜           ⎟
        ⎝ 0  e^(iθ) ⎠.
 """
-struct PGate <: Gate
+struct PGate <: SingleQubitGate
 	theta::Sym
 	qubit::Qubit
 
@@ -38,3 +38,7 @@ end
 Returns the inverse of the phase gate (a phase gate with the opposite angle).
 """
 inverse(gate::PGate) = PGate(-gate.theta, gate.qubit)
+
+get_qubit_set(gate::PGate) = Set([gate.qubit])
+
+get_name(gate::PGate) = "P(" * replace(string(gate.theta), "pi" => "π") * ")"
