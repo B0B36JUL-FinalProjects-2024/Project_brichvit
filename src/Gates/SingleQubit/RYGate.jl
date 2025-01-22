@@ -23,7 +23,7 @@ end
 
 Applies the Y-rotation gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::RYGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::RYGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -46,6 +46,6 @@ Returns the inverse of the Y-rotation gate (a Y-rotation gate with the opposite 
 """
 inverse(gate::RYGate) = RYGate(-gate.theta, gate.qubit)
 
-get_qubit_set(gate::RYGate) = Set([gate.qubit])
+get_qubits(gate::RYGate) = [gate.qubit]
 
 get_name(gate::RYGate) = "RY(" * replace(string(gate.theta), "pi" => "π") * ")"

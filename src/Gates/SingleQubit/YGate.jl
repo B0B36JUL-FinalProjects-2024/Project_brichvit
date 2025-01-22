@@ -16,7 +16,7 @@ end
 
 Applies the Pauli-Y gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::YGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::YGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -34,6 +34,6 @@ Returns the inverse of the Pauli-Y gate (which is the Pauli-Y gate itself, as it
 """
 inverse(gate::YGate) = gate
 
-get_qubit_set(gate::YGate) = Set([gate.qubit])
+get_qubits(gate::YGate) = [gate.qubit]
 
 get_name(gate::YGate) = "Y"

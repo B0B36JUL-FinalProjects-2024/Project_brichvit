@@ -9,7 +9,7 @@ get_top_border_width(_::EmptyGate, _::Vector{Qubit}) = 0
 get_bottom_border_width(_::EmptyGate, _::Vector{Qubit}) = 0
 
 function draw!(line_buffers::Vector{IOBuffer}, gate::EmptyGate, qubit_order::Vector{Qubit}, layer_width::Int)
-	line_index = 2 * findfirst(qubit -> qubit == gate.qubit, qc.qubits)
+	line_index = 2 * findfirst(qubit -> qubit == gate.qubit, qubit_order)
 
 	write(line_buffers[line_index], "─" ^ layer_width)
 end
@@ -21,8 +21,8 @@ function get_layers(qc::QuantumCircuit)
 	current_layer_qubit_indices = Set{Int}()
 
 	for instruction in qc.instructions
-		instruction_qubits = get_qubit_set(instruction)
-		instruction_qubit_index_range = findfirst(qubit -> qubit in instruction_qubits, qc.qubits):findlast(qubit -> qubit in instruction_qubits, qc.qubits)
+		instruction_qubit_indices = get_qubit_visualization_indices(instruction, qc.qubits)
+		instruction_qubit_index_range = minimum(instruction_qubit_indices):maximum(instruction_qubit_indices)
 
 		if isempty(intersect(current_layer_qubit_indices, instruction_qubit_index_range))
 			union!(current_layer_qubit_indices, instruction_qubit_index_range)

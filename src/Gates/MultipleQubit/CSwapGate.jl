@@ -29,7 +29,7 @@ get_top_border_width(gate::ControlledGate{SwapGate}, qubit_order::Vector{Qubit})
 get_bottom_border_width(gate::ControlledGate{SwapGate}, qubit_order::Vector{Qubit}) = 0
 
 function draw!(line_buffers::Vector{IOBuffer}, gate::ControlledGate{SwapGate}, qubit_order::Vector{Qubit}, layer_width::Int)
-	gate_qubits = get_qubit_set(gate)
+	gate_qubits = get_qubits(gate)
 	start_line_index = 2 * findfirst(qubit -> qubit in gate_qubits, qubit_order)
 	end_line_index = 2 * findlast(qubit -> qubit in gate_qubits, qubit_order)
 

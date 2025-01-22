@@ -16,7 +16,7 @@ end
 
 Applies the Hadamard gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::HGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::HGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -37,6 +37,6 @@ Returns the inverse of the Hadamard gate (which is the Hadamard gate itself, as 
 """
 inverse(gate::HGate) = gate
 
-get_qubit_set(gate::HGate) = Set([gate.qubit])
+get_qubits(gate::HGate) = [gate.qubit]
 
 get_name(gate::HGate) = "H"

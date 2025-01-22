@@ -16,7 +16,7 @@ end
 
 Applies the identity gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(_::IGate, _::AbstractVector{Sym}, _::Vector{Qubit}) end
+function apply!(gate::IGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[]) end
 
 """
 	inverse(gate::IGate)
@@ -25,6 +25,6 @@ Returns the inverse of the identity gate (which is the identity gate itself, as 
 """
 inverse(gate::IGate) = gate
 
-get_qubit_set(gate::IGate) = Set([gate.qubit])
+get_qubits(gate::IGate) = [gate.qubit]
 
 get_name(gate::IGate) = "I"

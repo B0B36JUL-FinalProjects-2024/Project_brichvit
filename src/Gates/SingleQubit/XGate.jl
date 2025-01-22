@@ -16,7 +16,7 @@ end
 
 Applies the Pauli-X gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::XGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::XGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -33,6 +33,6 @@ Returns the inverse of the Pauli-X gate (which is the Pauli-X gate itself, as it
 """
 inverse(gate::XGate) = gate
 
-get_qubit_set(gate::XGate) = Set([gate.qubit])
+get_qubits(gate::XGate) = [gate.qubit]
 
 get_name(gate::XGate) = "X"

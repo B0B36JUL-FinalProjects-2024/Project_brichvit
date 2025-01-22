@@ -4,8 +4,10 @@ using PyCall
 using SymPy
 
 export Qubit
-export QuantumCircuit, simulate_state_vector, simulate_unitary
+export QuantumCircuit, simulate_measurements, simulate_state_vector, simulate_unitary
 export Instruction, is_unitary
+export Measurement
+export Barrier
 export Gate, inverse
 export HGate
 export IGate
@@ -37,6 +39,8 @@ export draw
 
 include("Qubit.jl")
 include("Instruction.jl")
+include("Measurement.jl")
+include("Barrier.jl")
 include("Gate.jl")
 include("Gates/SingleQubit/SingleQubitGate.jl")
 include("Gates/SingleQubit/HGate.jl")

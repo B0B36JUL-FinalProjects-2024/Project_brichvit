@@ -49,7 +49,7 @@ end
 
 Applies the U gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::UGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::UGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -72,6 +72,6 @@ Returns the inverse of the U gate (which is a U(-θ,-λ,-ϕ) gate).
 """
 inverse(gate::UGate) = UGate(-gate.theta, -gate.lambda, -gate.phi, gate.qubit)
 
-get_qubit_set(gate::UGate) = Set([gate.qubit])
+get_qubits(gate::UGate) = [gate.qubit]
 
 get_name(gate::UGate) = "U(" * replace(string(gate.theta), "pi" => "π") * "," * replace(string(gate.phi), "pi" => "π") * "," * replace(string(gate.lambda), "pi" => "π") * ")"

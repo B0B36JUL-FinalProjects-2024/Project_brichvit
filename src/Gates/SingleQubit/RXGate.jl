@@ -23,7 +23,7 @@ end
 
 Applies the X-rotation gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::RXGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::RXGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -46,6 +46,6 @@ Returns the inverse of the X-rotation gate (an X-rotation gate with the opposite
 """
 inverse(gate::RXGate) = RXGate(-gate.theta, gate.qubit)
 
-get_qubit_set(gate::RXGate) = Set([gate.qubit])
+get_qubits(gate::RXGate) = [gate.qubit]
 
 get_name(gate::RXGate) = "RX(" * replace(string(gate.theta), "pi" => "π") * ")"

@@ -23,7 +23,7 @@ end
 
 Applies the Z-rotation gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::RZGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::RZGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit, qubit_order)
 	dimension = length(state_vector)
 
@@ -40,6 +40,6 @@ Returns the inverse of the Z-rotation gate (a Z-rotation gate with the opposite 
 """
 inverse(gate::RZGate) = RZGate(-gate.lambda, gate.qubit)
 
-get_qubit_set(gate::RZGate) = Set([gate.qubit])
+get_qubits(gate::RZGate) = [gate.qubit]
 
 get_name(gate::RZGate) = "RZ(" * replace(string(gate.lambda), "pi" => "π") * ")"

@@ -21,7 +21,7 @@ end
 
 Applies the swap gate on a specified quantum state vector, given a qubit ordering.
 """
-function apply!(gate::SwapGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
+function apply!(gate::SwapGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit}; measured_qubits::Vector{Qubit} = Qubit[])
 	qid1 = length(qubit_order) - findfirst(qubit -> qubit == gate.qubit1 || qubit == gate.qubit2, qubit_order)
 	qid2 = length(qubit_order) - findlast(qubit -> qubit == gate.qubit1 || qubit == gate.qubit2, qubit_order)
 	dimension = length(state_vector)
@@ -41,7 +41,7 @@ Returns the inverse of the swap gate (which is the swap gate itself, as it is he
 """
 inverse(gate::SwapGate) = gate
 
-get_qubit_set(gate::SwapGate) = Set([gate.qubit1, gate.qubit2])
+get_qubits(gate::SwapGate) = [gate.qubit1, gate.qubit2]
 
 get_total_width(gate::SwapGate) = 3
 get_top_border_width(gate::SwapGate, qubit_order::Vector{Qubit}) = 0
