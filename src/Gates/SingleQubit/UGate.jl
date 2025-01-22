@@ -73,5 +73,6 @@ Returns the inverse of the U gate (which is a U(-θ,-λ,-ϕ) gate).
 inverse(gate::UGate) = UGate(-gate.theta, -gate.lambda, -gate.phi, gate.qubit)
 
 get_qubits(gate::UGate) = [gate.qubit]
+replace_qubits(gate::UGate, qubit_replacements::Dict{Qubit, Qubit}) = UGate(gate.theta, gate.phi, gate.lambda, qubit_replacements[gate.qubit])
 
 get_name(gate::UGate) = "U(" * replace(string(gate.theta), "pi" => "π") * "," * replace(string(gate.phi), "pi" => "π") * "," * replace(string(gate.lambda), "pi" => "π") * ")"

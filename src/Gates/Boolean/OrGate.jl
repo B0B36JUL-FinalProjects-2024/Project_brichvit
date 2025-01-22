@@ -38,6 +38,8 @@ Returns the inverse of the OR gate (which is the OR gate itself, as it is hermit
 inverse(gate::OrGate) = gate
 
 get_qubits(gate::OrGate) = [gate.input_qubits..., gate.output_qubit]
+replace_qubits(gate::OrGate, qubit_replacements::Dict{Qubit, Qubit}) =
+	ControlledGate(qubit_replacements[gate.input_qubits]..., qubit_replacements[gate.output_qubit])
 
 get_total_width(gate::OrGate) = 7
 get_top_border_width(gate::OrGate, qubit_order::Vector{Qubit}) = 7

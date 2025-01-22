@@ -42,6 +42,8 @@ Returns the inverse of the swap gate (which is the swap gate itself, as it is he
 inverse(gate::SwapGate) = gate
 
 get_qubits(gate::SwapGate) = [gate.qubit1, gate.qubit2]
+replace_qubits(gate::SwapGate, qubit_replacements::Dict{Qubit, Qubit}) =
+	SwapGate(qubit_replacements[gate.qubit1], qubit_replacements[gate.qubit2])
 
 get_total_width(gate::SwapGate) = 3
 get_top_border_width(gate::SwapGate, qubit_order::Vector{Qubit}) = 0

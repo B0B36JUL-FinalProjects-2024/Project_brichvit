@@ -8,13 +8,13 @@ RZ(λ) = ⎜              ⎟
         ⎝ 0   e^(iλ/2) ⎠.
 """
 struct RZGate <: SingleQubitGate
-	lambda::Sym
+	theta::Sym
 	qubit::Qubit
 
-	RZGate(lambda::Sym, qubit::Qubit) = new(lambda, qubit)
-	function RZGate(lambda::Number, qubit::Qubit)
+	RZGate(theta::Sym, qubit::Qubit) = new(theta, qubit)
+	function RZGate(theta::Number, qubit::Qubit)
 		sympy = pyimport("sympy")
-		return new(sympy.nsimplify(lambda, [sympy.pi]), qubit)
+		return new(sympy.nsimplify(theta, [sympy.pi]), qubit)
 	end
 end
 
@@ -28,8 +28,8 @@ function apply!(gate::RZGate, state_vector::AbstractVector{Sym}, qubit_order::Ve
 	dimension = length(state_vector)
 
 	Threads.@threads for slice_start = 1:(1 << (qid + 1)):dimension
-		state_vector[slice_start:slice_start + 1 << qid - 1] .*= exp(-im * gate.lambda / 2)
-		state_vector[slice_start + 1 << qid:slice_start + 1 << (qid + 1) - 1] .*= exp(im * gate.lambda / 2)
+		state_vector[slice_start:slice_start + 1 << qid - 1] .*= exp(-im * gate.theta / 2)
+		state_vector[slice_start + 1 << qid:slice_start + 1 << (qid + 1) - 1] .*= exp(im * gate.theta / 2)
 	end
 end
 
@@ -38,8 +38,9 @@ end
 
 Returns the inverse of the Z-rotation gate (a Z-rotation gate with the opposite angle).
 """
-inverse(gate::RZGate) = RZGate(-gate.lambda, gate.qubit)
+inverse(gate::RZGate) = RZGate(-gate.theta, gate.qubit)
 
 get_qubits(gate::RZGate) = [gate.qubit]
+replace_qubits(gate::RZGate, qubit_replacements::Dict{Qubit, Qubit}) = RZGate(gate.theta, qubit_replacements[gate.qubit])
 
-get_name(gate::RZGate) = "RZ(" * replace(string(gate.lambda), "pi" => "π") * ")"
+get_name(gate::RZGate) = "RZ(" * replace(string(gate.theta), "pi" => "π") * ")"

@@ -4,7 +4,6 @@ using PyCall
 using SymPy
 
 export Qubit
-export QuantumCircuit, simulate_measurements, simulate_state_vector, simulate_unitary
 export Instruction, is_unitary
 export Measurement
 export Barrier
@@ -38,6 +37,8 @@ export CSwapGate
 export NegGate
 export AndGate
 export OrGate
+export QuantumCircuit, simulate_measurements, simulate_state_vector, simulate_unitary
+export circuit_to_gate
 export draw
 
 include("Qubit.jl")
@@ -77,6 +78,7 @@ include("Gates/Boolean/NegGate.jl")
 include("Gates/Boolean/AndGate.jl")
 include("Gates/Boolean/OrGate.jl")
 include("QuantumCircuit.jl")
+include("Gates/CompositeGate.jl")
 include("Visualization/Draw.jl")
 
 end

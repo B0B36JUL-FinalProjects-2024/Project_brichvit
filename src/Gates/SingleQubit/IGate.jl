@@ -26,5 +26,6 @@ Returns the inverse of the identity gate (which is the identity gate itself, as 
 inverse(gate::IGate) = gate
 
 get_qubits(gate::IGate) = [gate.qubit]
+replace_qubits(gate::IGate, qubit_replacements::Dict{Qubit, Qubit}) = IGate(qubit_replacements[gate.qubit])
 
 get_name(gate::IGate) = "I"

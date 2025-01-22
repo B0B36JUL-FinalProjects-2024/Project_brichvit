@@ -38,5 +38,6 @@ Returns the inverse of the Hadamard gate (which is the Hadamard gate itself, as 
 inverse(gate::HGate) = gate
 
 get_qubits(gate::HGate) = [gate.qubit]
+replace_qubits(gate::HGate, qubit_replacements::Dict{Qubit, Qubit}) = HGate(qubit_replacements[gate.qubit])
 
 get_name(gate::HGate) = "H"

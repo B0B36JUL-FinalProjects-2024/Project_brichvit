@@ -30,6 +30,8 @@ Returns the inverse of the NEG gate (which is the NEG gate itself, as it is herm
 inverse(gate::NegGate) = gate
 
 get_qubits(gate::NegGate) = [gate.input_qubit, gate.output_qubit]
+replace_qubits(gate::NegGate, qubit_replacements::Dict{Qubit, Qubit}) =
+	ControlledGate(qubit_replacements[gate.input_qubit], qubit_replacements[gate.output_qubit])
 
 get_total_width(gate::NegGate) = 8
 get_top_border_width(gate::NegGate, qubit_order::Vector{Qubit}) = 8

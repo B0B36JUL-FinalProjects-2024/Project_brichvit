@@ -47,5 +47,6 @@ Returns the inverse of the Y-rotation gate (a Y-rotation gate with the opposite 
 inverse(gate::RYGate) = RYGate(-gate.theta, gate.qubit)
 
 get_qubits(gate::RYGate) = [gate.qubit]
+replace_qubits(gate::RYGate, qubit_replacements::Dict{Qubit, Qubit}) = RYGate(gate.theta, qubit_replacements[gate.qubit])
 
 get_name(gate::RYGate) = "RY(" * replace(string(gate.theta), "pi" => "π") * ")"

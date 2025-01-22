@@ -34,5 +34,6 @@ Returns the inverse of the Pauli-X gate (which is the Pauli-X gate itself, as it
 inverse(gate::XGate) = gate
 
 get_qubits(gate::XGate) = [gate.qubit]
+replace_qubits(gate::XGate, qubit_replacements::Dict{Qubit, Qubit}) = XGate(qubit_replacements[gate.qubit])
 
 get_name(gate::XGate) = "X"

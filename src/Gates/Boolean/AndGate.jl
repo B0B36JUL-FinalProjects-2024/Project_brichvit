@@ -28,6 +28,8 @@ Returns the inverse of the AND gate (which is the AND gate itself, as it is herm
 inverse(gate::AndGate) = gate
 
 get_qubits(gate::AndGate) = [gate.input_qubits..., gate.output_qubit]
+replace_qubits(gate::AndGate, qubit_replacements::Dict{Qubit, Qubit}) =
+	ControlledGate(qubit_replacements[gate.input_qubits]..., qubit_replacements[gate.output_qubit])
 
 get_total_width(gate::AndGate) = 8
 get_top_border_width(gate::AndGate, qubit_order::Vector{Qubit}) = 8

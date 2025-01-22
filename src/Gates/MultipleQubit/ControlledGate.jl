@@ -49,6 +49,8 @@ Returns the inverse of the controlled gate (which is the controlled inverse of t
 inverse(gate::ControlledGate{T}) where T <: Gate = ControlledGate{T}(inverse(gate.base_gate), gate.control_qubits)
 
 get_qubits(gate::ControlledGate) = [gate.control_qubits..., get_qubits(gate.base_gate)...]
+replace_qubits(gate::ControlledGate{T}, qubit_replacements::Dict{Qubit, Qubit}) where T <: Gate =
+	ControlledGate{T}(replace_qubits(gate.base_gate, qubit_replacements), [qubit_replacements[control_qubit] for control_qubit in gate.control_qubits])
 
 get_total_width(gate::ControlledGate{<:SingleQubitGate}) = get_total_width(gate.base_gate)
 

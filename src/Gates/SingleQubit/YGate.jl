@@ -35,5 +35,6 @@ Returns the inverse of the Pauli-Y gate (which is the Pauli-Y gate itself, as it
 inverse(gate::YGate) = gate
 
 get_qubits(gate::YGate) = [gate.qubit]
+replace_qubits(gate::YGate, qubit_replacements::Dict{Qubit, Qubit}) = YGate(qubit_replacements[gate.qubit])
 
 get_name(gate::YGate) = "Y"

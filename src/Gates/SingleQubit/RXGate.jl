@@ -47,5 +47,6 @@ Returns the inverse of the X-rotation gate (an X-rotation gate with the opposite
 inverse(gate::RXGate) = RXGate(-gate.theta, gate.qubit)
 
 get_qubits(gate::RXGate) = [gate.qubit]
+replace_qubits(gate::RXGate, qubit_replacements::Dict{Qubit, Qubit}) = RXGate(gate.theta, qubit_replacements[gate.qubit])
 
 get_name(gate::RXGate) = "RX(" * replace(string(gate.theta), "pi" => "π") * ")"

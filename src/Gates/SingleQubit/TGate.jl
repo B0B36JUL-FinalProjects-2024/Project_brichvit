@@ -33,5 +33,6 @@ Returns the inverse of the T gate (a P(-π/4) gate).
 inverse(gate::TGate) = PGate(-PI / 4, gate.qubit)
 
 get_qubits(gate::TGate) = [gate.qubit]
+replace_qubits(gate::TGate, qubit_replacements::Dict{Qubit, Qubit}) = TGate(qubit_replacements[gate.qubit])
 
 get_name(gate::TGate) = "T"

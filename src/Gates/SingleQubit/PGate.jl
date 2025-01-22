@@ -40,5 +40,6 @@ Returns the inverse of the phase gate (a phase gate with the opposite angle).
 inverse(gate::PGate) = PGate(-gate.theta, gate.qubit)
 
 get_qubits(gate::PGate) = [gate.qubit]
+replace_qubits(gate::PGate, qubit_replacements::Dict{Qubit, Qubit}) = PGate(gate.theta, qubit_replacements[gate.qubit])
 
 get_name(gate::PGate) = "P(" * replace(string(gate.theta), "pi" => "π") * ")"

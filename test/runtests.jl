@@ -37,4 +37,5 @@ using Aqua
 	include("Gates/Boolean/NegGate.jl")
 	include("Gates/Boolean/AndGate.jl")
 	include("Gates/Boolean/OrGate.jl")
+	include("Gates/CompositeGate.jl")
 end
