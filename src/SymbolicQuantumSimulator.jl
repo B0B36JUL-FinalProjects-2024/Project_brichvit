@@ -35,6 +35,9 @@ export CZGate
 export CCXGate
 export SwapGate
 export CSwapGate
+export NegGate
+export AndGate
+export OrGate
 export draw
 
 include("Qubit.jl")
@@ -70,6 +73,9 @@ include("Gates/MultipleQubit/CZGate.jl")
 include("Gates/MultipleQubit/CCXGate.jl")
 include("Gates/MultipleQubit/SwapGate.jl")
 include("Gates/MultipleQubit/CSwapGate.jl")
+include("Gates/Boolean/NegGate.jl")
+include("Gates/Boolean/AndGate.jl")
+include("Gates/Boolean/OrGate.jl")
 include("QuantumCircuit.jl")
 include("Visualization/Draw.jl")
 

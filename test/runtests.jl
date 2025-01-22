@@ -34,4 +34,7 @@ using Aqua
 	include("Gates/MultipleQubit/CCXGate.jl")
 	include("Gates/MultipleQubit/SwapGate.jl")
 	include("Gates/MultipleQubit/CSwapGate.jl")
+	include("Gates/Boolean/NegGate.jl")
+	include("Gates/Boolean/AndGate.jl")
+	include("Gates/Boolean/OrGate.jl")
 end
