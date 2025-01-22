@@ -11,4 +11,4 @@ CT = ⎜                   ⎟
      ⎜                   ⎟
      ⎝ 0  0  0  e^(iπ/4) ⎠.
 """
-CTGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(TGate(target_qubit), [control_qubit])
+CTGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{TGate}(TGate(target_qubit), [control_qubit])

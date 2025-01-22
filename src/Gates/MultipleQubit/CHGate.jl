@@ -11,4 +11,4 @@ CH = ⎜                       ⎟
      ⎜                       ⎟
      ⎝ 0  0  √(2)/2  -√(2)/2 ⎠.
 """
-CHGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(HGate(target_qubit), [control_qubit])
+CHGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{HGate}(HGate(target_qubit), [control_qubit])

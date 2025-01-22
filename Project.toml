@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 
@@ -13,6 +14,7 @@ julia = "1.10, 1.11"
 Test = "1.10, 1.11"
 Aqua = "0.8"
 LinearAlgebra = "1.10, 1.11"
+Printf = "1.10, 1.11"
 PyCall = "1.96"
 SymPy = "2.2"
 

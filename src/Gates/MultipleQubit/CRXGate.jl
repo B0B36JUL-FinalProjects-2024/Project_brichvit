@@ -11,8 +11,8 @@ CRX(θ) = ⎜                                ⎟
          ⎜                                ⎟
          ⎝ 0  0  -i⋅sin(θ/2)     cos(θ/2) ⎠.
 """
-CRXGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(RXGate(theta, target_qubit), [control_qubit])
+CRXGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{RXGate}(RXGate(theta, target_qubit), [control_qubit])
 function CRXGate(theta::Number, control_qubit::Qubit, target_qubit::Qubit)
 	sympy = pyimport("sympy")
-	return ControlledGate(RXGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
+	return ControlledGate{RXGate}(RXGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
 end

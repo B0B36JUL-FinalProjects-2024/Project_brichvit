@@ -11,8 +11,8 @@ CRY(θ) = ⎜                           ⎟
          ⎜                           ⎟
          ⎝ 0  0  sin(θ/2)   cos(θ/2) ⎠.
 """
-CRYGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(RYGate(theta, target_qubit), [control_qubit])
+CRYGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{RYGate}(RYGate(theta, target_qubit), [control_qubit])
 function CRYGate(theta::Number, control_qubit::Qubit, target_qubit::Qubit)
 	sympy = pyimport("sympy")
-	return ControlledGate(RYGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
+	return ControlledGate{RYGate}(RYGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
 end

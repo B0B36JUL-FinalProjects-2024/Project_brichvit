@@ -11,8 +11,8 @@ CP(θ) = ⎜                 ⎟
         ⎜                 ⎟
         ⎝ 0  0  0  e^(iθ) ⎠.
 """
-CPGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(PGate(theta, target_qubit), [control_qubit])
+CPGate(theta::Sym, control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{PGate}(PGate(theta, target_qubit), [control_qubit])
 function CPGate(theta::Number, control_qubit::Qubit, target_qubit::Qubit)
 	sympy = pyimport("sympy")
-	return ControlledGate(PGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
+	return ControlledGate{PGate}(PGate(Sym(sympy.nsimplify(theta, [sympy.pi])), target_qubit), [control_qubit])
 end

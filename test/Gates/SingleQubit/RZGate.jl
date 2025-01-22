@@ -6,7 +6,7 @@ using LinearAlgebra
 const rz_0_mat = [1 0; 0 1]
 const rz_pi_3_mat = [(sqrt(Sym(3)) / 2 - im / 2) 0; 0 (sqrt(Sym(3)) / 2 + im / 2)]
 const rz_pi_2_mat = [(sqrt(Sym(2)) / 2 - im * sqrt(Sym(2)) / 2) 0; 0 (sqrt(Sym(2)) / 2 + im * sqrt(Sym(2)) / 2)]
-const rz_2_pi_3_mat = [(1 / 2 - im * sqrt(Sym(3)) / 2) 0 ; 0 (1 / 2 + im * sqrt(Sym(3)) / 2)]
+const rz_2_pi_3_mat = [(1 / 2 - im * sqrt(Sym(3)) / 2) 0; 0 (1 / 2 + im * sqrt(Sym(3)) / 2)]
 const rz_pi_mat = [-im 0; 0 im]
 
 # We need to help SymPy with element comparison by calling expr.rewrite(SymPy.cos) in some test cases

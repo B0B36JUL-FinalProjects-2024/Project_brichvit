@@ -3,7 +3,7 @@
 
 Generic wrapper for gates controlled by one or more qubits.
 """
-struct ControlledGate <: Gate
+struct ControlledGate{T <: Gate} <: Gate
 	base_gate::Gate
 	control_qubits::AbstractVector{Qubit}
 end
@@ -15,7 +15,7 @@ function add_controlled_view_indices!(indices::Vector{Int}, control_qubit_qids::
 		qid = control_qubit_qids[1]
 
 		for slice_start = start_index:(1 << (qid + 1)):end_index
-			add_controlled_view_indices!(indices, view(control_qubit_qids, 2:length(control_qubit_qids)),
+			add_controlled_view_indices!(indices, control_qubit_qids[2:length(control_qubit_qids)],
 				slice_start + 1 << qid, slice_start + 1 << (qid + 1) - 1)
 		end
 	end
@@ -34,7 +34,7 @@ end
 Applies the controlled gate on a specified quantum state vector, given a qubit ordering.
 """
 function apply!(gate::ControlledGate, state_vector::AbstractVector{Sym}, qubit_order::Vector{Qubit})
-	control_qubit_qids = length(qubit_order) .- indexin(gate.control_qubits, qubit_order)
+	control_qubit_qids = sort(length(qubit_order) .- indexin(gate.control_qubits, qubit_order); rev = true)
 
 	state_vector_view = get_controlled_view(state_vector, control_qubit_qids)
 
@@ -46,13 +46,13 @@ end
 
 Returns the inverse of the controlled gate (which is the controlled inverse of the base gate).
 """
-inverse(gate::ControlledGate) = ControlledGate(inverse(gate.base_gate), gate.control_qubits)
+inverse(gate::ControlledGate{T}) where T <: Gate = ControlledGate{T}(inverse(gate.base_gate), gate.control_qubits)
 
 get_qubit_set(gate::ControlledGate) = union(Set(gate.control_qubits), get_qubit_set(gate.base_gate))
 
-get_total_width(gate::ControlledGate) = get_total_width(gate.base_gate)
+get_total_width(gate::ControlledGate{<:SingleQubitGate}) = get_total_width(gate.base_gate)
 
-function get_top_border_width(gate::ControlledGate, qubit_order::Vector{Qubit})
+function get_top_border_width(gate::ControlledGate{<:SingleQubitGate}, qubit_order::Vector{Qubit})
 	if findlast(qubit -> qubit in get_qubit_set(gate.base_gate), qubit_order) < findfirst(qubit -> qubit in gate.control_qubits, qubit_order)
 		return get_top_border_width(gate.base_gate, qubit_order)
 	else
@@ -60,7 +60,7 @@ function get_top_border_width(gate::ControlledGate, qubit_order::Vector{Qubit})
 	end
 end
 
-function get_bottom_border_width(gate::ControlledGate, qubit_order::Vector{Qubit})
+function get_bottom_border_width(gate::ControlledGate{<:SingleQubitGate}, qubit_order::Vector{Qubit})
 	if findfirst(qubit -> qubit in get_qubit_set(gate.base_gate), qubit_order) > findlast(qubit -> qubit in gate.control_qubits, qubit_order)
 		return get_bottom_border_width(gate.base_gate, qubit_order)
 	else
@@ -68,7 +68,7 @@ function get_bottom_border_width(gate::ControlledGate, qubit_order::Vector{Qubit
 	end
 end
 
-function draw!(line_buffers::Vector{IOBuffer}, gate::ControlledGate, qubit_order::Vector{Qubit}, layer_width::Int)
+function draw!(line_buffers::Vector{IOBuffer}, gate::ControlledGate{<:SingleQubitGate}, qubit_order::Vector{Qubit}, layer_width::Int)
 	gate_qubits = get_qubit_set(gate)
 	start_line_index = 2 * findfirst(qubit -> qubit in gate_qubits, qubit_order)
 	end_line_index = 2 * findlast(qubit -> qubit in gate_qubits, qubit_order)

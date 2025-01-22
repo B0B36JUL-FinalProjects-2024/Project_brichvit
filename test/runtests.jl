@@ -31,4 +31,7 @@ using Aqua
 	include("Gates/MultipleQubit/CXGate.jl")
 	include("Gates/MultipleQubit/CYGate.jl")
 	include("Gates/MultipleQubit/CZGate.jl")
+	include("Gates/MultipleQubit/CCXGate.jl")
+	include("Gates/MultipleQubit/SwapGate.jl")
+	include("Gates/MultipleQubit/CSwapGate.jl")
 end

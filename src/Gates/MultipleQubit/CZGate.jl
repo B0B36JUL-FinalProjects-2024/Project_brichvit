@@ -11,4 +11,4 @@ CZ = ⎜             ⎟
      ⎜             ⎟
      ⎝ 0  0  0  -1 ⎠.
 """
-CZGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(ZGate(target_qubit), [control_qubit])
+CZGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{ZGate}(ZGate(target_qubit), [control_qubit])

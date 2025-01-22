@@ -11,4 +11,4 @@ CY = ⎜             ⎟
      ⎜             ⎟
      ⎝ 0  0  i   0 ⎠.
 """
-CYGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate(YGate(target_qubit), [control_qubit])
+CYGate(control_qubit::Qubit, target_qubit::Qubit) = ControlledGate{YGate}(YGate(target_qubit), [control_qubit])
