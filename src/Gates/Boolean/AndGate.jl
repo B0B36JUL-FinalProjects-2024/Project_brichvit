@@ -7,7 +7,17 @@ struct AndGate <: Gate
 	input_qubits::AbstractVector{Qubit}
 	output_qubit::Qubit
 
-	AndGate(args...) = new(collect(args[1:end - 1]), args[end])
+	function AndGate(args...)
+		if length(args) != length(Set(args))
+			throw(ArgumentError("Gates may not contain duplicate qubits"))
+		end
+
+		if length(args) < 2
+			throw(ArgumentError("An AndGate must have at least one input qubit"))
+		end
+
+		return new(collect(args[1:end - 1]), args[end])
+	end
 end
 
 """

@@ -5,6 +5,11 @@ using LinearAlgebra
 
 # We need to help SymPy with element comparison by calling expr.rewrite(SymPy.cos) in some test cases
 @testset "CRZGate" begin
+	@testset "Constructor" begin
+		q1 = Qubit("q1")
+
+		@test_throws ArgumentError CRZGate(0, q1, q1)
+	end
 	@testset "Two qubits" begin
 		q1, q2 = Qubit("q1"), Qubit("q2")
 

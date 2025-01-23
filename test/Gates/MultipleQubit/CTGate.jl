@@ -6,6 +6,11 @@ using LinearAlgebra
 ct_gate = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 exp(im * PI / 4)]
 
 @testset "CTGate" begin
+	@testset "Constructor" begin
+		q1 = Qubit("q1")
+
+		@test_throws ArgumentError CTGate(q1, q1)
+	end
 	@testset "Two qubits" begin
 		q1, q2 = Qubit("q1"), Qubit("q2")
 

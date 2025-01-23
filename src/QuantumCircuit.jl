@@ -8,15 +8,31 @@ struct QuantumCircuit
 	qubits::Vector{Qubit}
 	instructions::Vector{Instruction}
 
-	QuantumCircuit(args...) = new(collect(args), [])
+	function QuantumCircuit(args...)
+		if isempty(args)
+			throw(ArgumentError("A QuantumCircuit has to contain at least one qubit"))
+		end
+
+		if length(args) != length(Set(args))
+			throw(ArgumentError("A QuantumCircuit may not contain duplicate qubits"))
+		end
+
+		return new(collect(args), [])
+	end
 end
 
 function Base.push!(qc::QuantumCircuit, instruction::Instruction)
+	if any(map(existing_instruction -> isa(existing_instruction, Measurement), qc.instructions)) && is_unitary(instruction)
+		throw(ArgumentError("Gates cannot be added to a QuantumCircuit after some of the qubits have been measured"))
+	end
+
 	Base.push!(qc.instructions, instruction)
 end
 
-function Base.append!(qc::QuantumCircuit, instruction)
-	Base.append!(qc.instructions, instruction)
+function Base.append!(qc::QuantumCircuit, instructions)
+	for instruction in instructions
+		push!(qc, instruction)
+	end
 end
 
 """

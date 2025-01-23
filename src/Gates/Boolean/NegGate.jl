@@ -6,6 +6,14 @@ Boolean NEG gate (NOT gate, but named NEG to avoid confusion with the Pauli-X ga
 struct NegGate <: Gate
 	input_qubit::Qubit
 	output_qubit::Qubit
+
+	function NegGate(input_qubit::Qubit, output_qubit::Qubit)
+		if input_qubit == output_qubit
+			throw(ArgumentError("Gates may not contain duplicate qubits"))
+		end
+
+		return new(input_qubit, output_qubit)
+	end
 end
 
 """

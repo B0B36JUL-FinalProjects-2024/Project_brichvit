@@ -11,6 +11,11 @@ const cp_pi_2_mat = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 im]
 
 # We need to help SymPy with element comparison by calling expr.rewrite(SymPy.cos) in some test cases
 @testset "CPGate" begin
+	@testset "Constructor" begin
+		q1 = Qubit("q1")
+
+		@test_throws ArgumentError CPGate(0, q1, q1)
+	end
 	@testset "Two qubits" begin
 		q1, q2 = Qubit("q1"), Qubit("q2")
 

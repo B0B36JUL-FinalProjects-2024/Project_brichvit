@@ -4,8 +4,23 @@
 Generic wrapper for gates controlled by one or more qubits.
 """
 struct ControlledGate{T <: Gate} <: Gate
-	base_gate::Gate
+	base_gate::T
 	control_qubits::AbstractVector{Qubit}
+
+	function ControlledGate(base_gate::T, control_qubits::AbstractVector{Qubit}) where T <: Gate
+		if length(get_qubits(base_gate)) + length(control_qubits) != length(union(Set(get_qubits(base_gate)), Set(control_qubits)))
+			throw(ArgumentError("Gates may not contain duplicate qubits"))
+		end
+
+		if isempty(control_qubits)
+			throw(ArgumentError("A ControlledGate must be controlled by at least one qubit"))
+		end
+
+		return new{T}(base_gate, control_qubits)
+	end
+
+	ControlledGate{T}(base_gate::T, control_qubits::AbstractVector{Qubit}) where T <: Gate =
+		ControlledGate(base_gate::T, control_qubits::AbstractVector{Qubit})
 end
 
 function add_controlled_view_indices!(indices::Vector{Int}, control_qubit_qids::AbstractVector{Int}, start_index::Int, end_index::Int)
@@ -46,7 +61,7 @@ end
 
 Returns the inverse of the controlled gate (which is the controlled inverse of the base gate).
 """
-inverse(gate::ControlledGate{T}) where T <: Gate = ControlledGate{T}(inverse(gate.base_gate), gate.control_qubits)
+inverse(gate::ControlledGate{T}) where T <: Gate = ControlledGate(inverse(gate.base_gate), gate.control_qubits)
 
 get_qubits(gate::ControlledGate) = [gate.control_qubits..., get_qubits(gate.base_gate)...]
 replace_qubits(gate::ControlledGate{T}, qubit_replacements::Dict{Qubit, Qubit}) where T <: Gate =

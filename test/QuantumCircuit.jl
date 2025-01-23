@@ -5,6 +5,7 @@ using LinearAlgebra
 using SymPy
 
 struct DummyInstruction <: Instruction end
+struct DummyGate <: Gate end
 
 @testset "QuantumCircuit" begin
 	@testset "QuantumCircuit constructor" begin
@@ -19,6 +20,9 @@ struct DummyInstruction <: Instruction end
 
 		qc = QuantumCircuit(q1, q2)
 		@test qc.qubits == [q1, q2]
+
+		@test_throws ArgumentError QuantumCircuit()
+		@test_throws ArgumentError QuantumCircuit(q1, q2, q1)
 	end
 	@testset "push!" begin
 		q1 = Qubit("q1")
@@ -41,6 +45,22 @@ struct DummyInstruction <: Instruction end
 
 		append!(qc, [DummyInstruction()])
 		@test length(qc.instructions) == 3
+	end
+	@testset "No gates after measurement" begin
+		q1 = Qubit("q1")
+		qc = QuantumCircuit(q1)
+		push!(qc, DummyGate())
+		push!(qc, Measurement(q1))
+
+		@test_throws ArgumentError push!(qc, DummyGate())
+
+		qc = QuantumCircuit(q1)
+		push!(qc, DummyGate())
+		@test_throws ArgumentError append!(qc, [Measurement(q1), DummyGate()])
+
+		qc = QuantumCircuit(q1)
+		@test_nowarn append!(qc, [DummyGate(), Measurement(q1)])
+		@test_nowarn append!(qc, [Measurement(q1), Measurement(q1)])
 	end
 	@testset "create_quantum_state_vector" begin
 		q1 = Qubit("q1")

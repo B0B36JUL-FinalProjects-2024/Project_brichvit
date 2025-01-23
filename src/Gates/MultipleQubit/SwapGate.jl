@@ -14,6 +14,14 @@ Swap = ⎜            ⎟
 struct SwapGate <: Gate
 	qubit1::Qubit
 	qubit2::Qubit
+
+	function SwapGate(qubit1::Qubit, qubit2::Qubit)
+		if qubit1 == qubit2
+			throw(ArgumentError("Gates may not contain duplicate qubits"))
+		end
+
+		return new(qubit1, qubit2)
+	end
 end
 
 """

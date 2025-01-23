@@ -8,6 +8,14 @@ or_gate_output_2 = [1 0 0 0 0 0 0 0; 0 0 0 1 0 0 0 0; 0 0 1 0 0 0 0 0; 0 1 0 0 0
 or_gate_output_3 = [1 0 0 0 0 0 0 0; 0 1 0 0 0 0 0 0; 0 0 0 1 0 0 0 0; 0 0 1 0 0 0 0 0; 0 0 0 0 0 1 0 0; 0 0 0 0 1 0 0 0; 0 0 0 0 0 0 0 1; 0 0 0 0 0 0 1 0]
 
 @testset "OrGate" begin
+	@testset "Constructor" begin
+		q1, q2 = Qubit("q1"), Qubit("q2")
+
+		@test_throws ArgumentError OrGate(q1)
+		@test_throws ArgumentError OrGate(q1, q1, q2)
+		@test_throws ArgumentError OrGate(q1, q2, q1)
+		@test_throws ArgumentError OrGate(q2, q1, q1)
+	end
 	@testset "Three qubits" begin
 		q1, q2, q3 = Qubit("q1"), Qubit("q2"), Qubit("q3")
 

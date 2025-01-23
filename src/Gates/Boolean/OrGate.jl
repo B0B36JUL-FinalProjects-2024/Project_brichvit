@@ -7,7 +7,17 @@ struct OrGate <: Gate
 	input_qubits::AbstractVector{Qubit}
 	output_qubit::Qubit
 
-	OrGate(args...) = new(collect(args[1:end - 1]), args[end])
+	function OrGate(args...)
+		if length(args) != length(Set(args))
+			throw(ArgumentError("Gates may not contain duplicate qubits"))
+		end
+
+		if length(args) < 2
+			throw(ArgumentError("An OrGate must have at least one input qubit"))
+		end
+
+		return new(collect(args[1:end - 1]), args[end])
+	end
 end
 
 """

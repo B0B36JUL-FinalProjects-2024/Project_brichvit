@@ -4,6 +4,11 @@ using SymPy
 using LinearAlgebra
 
 @testset "CRYGate" begin
+	@testset "Constructor" begin
+		q1 = Qubit("q1")
+
+		@test_throws ArgumentError CRYGate(0, q1, q1)
+	end
 	@testset "Two qubits" begin
 		q1, q2 = Qubit("q1"), Qubit("q2")
 

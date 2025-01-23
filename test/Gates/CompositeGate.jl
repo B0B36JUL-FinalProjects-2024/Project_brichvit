@@ -3,8 +3,6 @@ using Test
 using SymPy
 using LinearAlgebra
 
-const x_mat = [0 1; 1 0]
-
 @testset "CompositeGate" begin
 	@testset "One qubit" begin
 		q1, q2 = Qubit("q1"), Qubit("q2")
