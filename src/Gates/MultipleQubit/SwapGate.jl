@@ -49,6 +49,13 @@ Returns the inverse of the swap gate (which is the swap gate itself, as it is he
 """
 inverse(gate::SwapGate) = gate
 
+"""
+	controlled(gate::SwapGate, control_qubit::Qubit)
+
+Returns the swap gate controlled by a single qubit.
+"""
+controlled(gate::SwapGate, control_qubit::Qubit) = CSwapGate(control_qubit, gate.qubit1, gate.qubit2)
+
 get_qubits(gate::SwapGate) = [gate.qubit1, gate.qubit2]
 replace_qubits(gate::SwapGate, qubit_replacements::Dict{Qubit, Qubit}) =
 	SwapGate(qubit_replacements[gate.qubit1], qubit_replacements[gate.qubit2])

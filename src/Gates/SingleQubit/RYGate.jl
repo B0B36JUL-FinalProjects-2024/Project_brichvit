@@ -46,6 +46,13 @@ Returns the inverse of the Y-rotation gate (a Y-rotation gate with the opposite 
 """
 inverse(gate::RYGate) = RYGate(-gate.theta, gate.qubit)
 
+"""
+	controlled(gate::RYGate, control_qubit::Qubit)
+
+Returns the Y-rotation gate controlled by a single qubit.
+"""
+controlled(gate::RYGate, control_qubit::Qubit) = CRYGate(gate.theta, control_qubit, gate.qubit)
+
 get_qubits(gate::RYGate) = [gate.qubit]
 replace_qubits(gate::RYGate, qubit_replacements::Dict{Qubit, Qubit}) = RYGate(gate.theta, qubit_replacements[gate.qubit])
 

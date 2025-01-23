@@ -51,6 +51,8 @@ Returns the inverse of the CompositeGate gate (which is a gate composed of inver
 """
 inverse(gate::CompositeGate) = CompositeGate([inverse(inner_gate) for inner_gate in reverse(gate.gates)], gate.qubits, "I" * gate.name)
 
+controlled(gate::CompositeGate, control_qubit::Qubit) = ControlledGate(gate, [control_qubit])
+
 get_qubits(gate::CompositeGate) = gate.qubits
 replace_qubits(gate::CompositeGate, qubit_replacements::Dict{Qubit, Qubit}) =
 	CompositeGate([replace_qubits(inner_gate, qubit_replacements) for inner_gate in qc.gates], [qubit_replacements[qubit] for qubit in gate.qubits], gate.name)

@@ -37,6 +37,13 @@ Returns the inverse of the Hadamard gate (which is the Hadamard gate itself, as 
 """
 inverse(gate::HGate) = gate
 
+"""
+	controlled(gate::HGate, control_qubit::Qubit)
+
+Returns the Hadamard gate controlled by a single qubit.
+"""
+controlled(gate::HGate, control_qubit::Qubit) = CHGate(control_qubit, gate.qubit)
+
 get_qubits(gate::HGate) = [gate.qubit]
 replace_qubits(gate::HGate, qubit_replacements::Dict{Qubit, Qubit}) = HGate(qubit_replacements[gate.qubit])
 

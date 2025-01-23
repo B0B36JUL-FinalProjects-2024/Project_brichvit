@@ -45,4 +45,14 @@ swap_gate = [1 0 0 0; 0 0 1 0; 0 1 0 0; 0 0 0 1]
 		push!(qc, SwapGate(q2, q1))
 		@test simulate_unitary(qc) == 1.0I
 	end
+	@testset "controlled" begin
+		q1, q2, q3 = Qubit("q1"), Qubit("q2"), Qubit("q3")
+		
+		qc1 = QuantumCircuit(q1, q2, q3)
+		push!(qc1, controlled(SwapGate(q2, q3), q1))
+
+		qc2 = QuantumCircuit(q1, q2, q3)
+		push!(qc2, CSwapGate(q1, q2, q3))
+		@test simulate_unitary(qc1) == simulate_unitary(qc2)
+	end
 end

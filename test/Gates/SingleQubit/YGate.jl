@@ -37,4 +37,14 @@ const y_mat = [0 -im; im 0]
 		push!(qc, YGate(q1))
 		@test simulate_unitary(qc) == 1.0I
 	end
+	@testset "controlled" begin
+		q1, q2 = Qubit("q1"), Qubit("q2")
+		
+		qc1 = QuantumCircuit(q1, q2)
+		push!(qc1, controlled(YGate(q2), q1))
+
+		qc2 = QuantumCircuit(q1, q2)
+		push!(qc2, CYGate(q1, q2))
+		@test simulate_unitary(qc1) == simulate_unitary(qc2)
+	end
 end

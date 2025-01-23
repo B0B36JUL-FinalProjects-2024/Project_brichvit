@@ -4,10 +4,11 @@ using PyCall
 using SymPy
 
 export Qubit
+export QuantumRegister
 export Instruction, is_unitary
 export Measurement
 export Barrier
-export Gate, inverse
+export Gate, inverse, controlled
 export HGate
 export IGate
 export PGate
@@ -42,6 +43,7 @@ export circuit_to_gate
 export draw
 
 include("Qubit.jl")
+include("QuantumRegister.jl")
 include("Instruction.jl")
 include("Measurement.jl")
 include("Barrier.jl")
@@ -79,6 +81,7 @@ include("Gates/Boolean/AndGate.jl")
 include("Gates/Boolean/OrGate.jl")
 include("QuantumCircuit.jl")
 include("Gates/CompositeGate.jl")
+include("Gates/MultipleQubit/ControlledCompositeGate.jl")
 include("Visualization/Draw.jl")
 
 end

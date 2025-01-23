@@ -46,6 +46,13 @@ Returns the inverse of the X-rotation gate (an X-rotation gate with the opposite
 """
 inverse(gate::RXGate) = RXGate(-gate.theta, gate.qubit)
 
+"""
+	controlled(gate::RXGate, control_qubit::Qubit)
+
+Returns the X-Rotation gate controlled by a single qubit.
+"""
+controlled(gate::RXGate, control_qubit::Qubit) = CRXGate(gate.theta, control_qubit, gate.qubit)
+
 get_qubits(gate::RXGate) = [gate.qubit]
 replace_qubits(gate::RXGate, qubit_replacements::Dict{Qubit, Qubit}) = RXGate(gate.theta, qubit_replacements[gate.qubit])
 

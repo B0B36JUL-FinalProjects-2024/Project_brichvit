@@ -33,6 +33,13 @@ Returns the inverse of the Pauli-X gate (which is the Pauli-X gate itself, as it
 """
 inverse(gate::XGate) = gate
 
+"""
+	controlled(gate::XGate, control_qubit::Qubit)
+
+Returns the Pauli-X gate controlled by a single qubit.
+"""
+controlled(gate::XGate, control_qubit::Qubit) = CXGate(control_qubit, gate.qubit)
+
 get_qubits(gate::XGate) = [gate.qubit]
 replace_qubits(gate::XGate, qubit_replacements::Dict{Qubit, Qubit}) = XGate(qubit_replacements[gate.qubit])
 

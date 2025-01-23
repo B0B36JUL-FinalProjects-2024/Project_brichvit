@@ -40,6 +40,13 @@ Returns the inverse of the Z-rotation gate (a Z-rotation gate with the opposite 
 """
 inverse(gate::RZGate) = RZGate(-gate.theta, gate.qubit)
 
+"""
+	controlled(gate::RZGate, control_qubit::Qubit)
+
+Returns the Z-rotation gate controlled by a single qubit.
+"""
+controlled(gate::RZGate, control_qubit::Qubit) = CRZGate(gate.theta, control_qubit, gate.qubit)
+
 get_qubits(gate::RZGate) = [gate.qubit]
 replace_qubits(gate::RZGate, qubit_replacements::Dict{Qubit, Qubit}) = RZGate(gate.theta, qubit_replacements[gate.qubit])
 

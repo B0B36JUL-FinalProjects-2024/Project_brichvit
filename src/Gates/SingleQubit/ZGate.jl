@@ -32,6 +32,13 @@ Returns the inverse of the Pauli-Z gate (which is the Pauli-Z gate itself, as it
 """
 inverse(gate::ZGate) = gate
 
+"""
+	controlled(gate::ZGate, control_qubit::Qubit)
+
+Returns the Pauli-Z gate controlled by a single qubit.
+"""
+controlled(gate::ZGate, control_qubit::Qubit) = CZGate(control_qubit, gate.qubit)
+
 get_qubits(gate::ZGate) = [gate.qubit]
 replace_qubits(gate::ZGate, qubit_replacements::Dict{Qubit, Qubit}) = ZGate(qubit_replacements[gate.qubit])
 

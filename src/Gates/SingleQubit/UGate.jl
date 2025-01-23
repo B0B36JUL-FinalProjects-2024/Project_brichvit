@@ -72,6 +72,13 @@ Returns the inverse of the U gate (which is a U(-θ,-λ,-ϕ) gate).
 """
 inverse(gate::UGate) = UGate(-gate.theta, -gate.lambda, -gate.phi, gate.qubit)
 
+"""
+	controlled(gate::UGate, control_qubit::Qubit)
+
+Returns the U gate controlled by a single qubit.
+"""
+controlled(gate::UGate, control_qubit::Qubit) = CUGate(gate.theta, gate.phi, gate.lambda, control_qubit, gate.qubit)
+
 get_qubits(gate::UGate) = [gate.qubit]
 replace_qubits(gate::UGate, qubit_replacements::Dict{Qubit, Qubit}) = UGate(gate.theta, gate.phi, gate.lambda, qubit_replacements[gate.qubit])
 

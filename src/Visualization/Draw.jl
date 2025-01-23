@@ -41,7 +41,7 @@ end
 get_left_padding(instruction_width::Int, layer_width::Int) = (layer_width - instruction_width + 1) ÷ 2
 get_right_padding(instruction_width::Int, layer_width::Int) = (layer_width - instruction_width) ÷ 2
 
-function draw(qc::QuantumCircuit; overflow_width::Int = 30)
+function draw(qc::QuantumCircuit; max_overflow_width::Int = 120)
 	# Calculate dimensions
 	height = 2 * length(qc.qubits) + 1
 
@@ -142,9 +142,32 @@ function draw(qc::QuantumCircuit; overflow_width::Int = 30)
 		write(line_buffers[end], " " ^ get_right_padding(bottom_border_width, layer_width))
 	end
 
-	# Print the outputs of the vectors
-	# TODO: overflow
-	for buffer in line_buffers
-		println(String(take!(buffer)))
+	# Determine the positions for wrapping
+	lines = [String(take!(buffer)) for buffer in line_buffers]
+	overflow_widths = [1]
+
+	current_width = max_qubit_name_length + 3
+	for layer in layers
+		if current_width + maximum(instruction -> get_total_width(instruction), layer) - overflow_widths[end] - 2 > max_overflow_width
+			push!(overflow_widths, current_width)
+		end
+
+		current_width += maximum(instruction -> get_total_width(instruction), layer)
+	end
+
+	# Print the outputs
+	for i = 1:length(overflow_widths) - 1
+		for line in lines
+			if i > 1
+				print("«")
+			end
+
+			println(chop(first(line,overflow_widths[i + 1] - 1); head = overflow_widths[i] - 1, tail = 0) * "»")
+		end
+		println("")
+	end
+
+	for line in lines
+		println("«" * chop(line; head = overflow_widths[end] - 1, tail = 0))
 	end
 end

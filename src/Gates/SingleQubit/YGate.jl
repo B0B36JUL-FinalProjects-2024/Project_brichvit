@@ -34,6 +34,13 @@ Returns the inverse of the Pauli-Y gate (which is the Pauli-Y gate itself, as it
 """
 inverse(gate::YGate) = gate
 
+"""
+	controlled(gate::YGate, control_qubit::Qubit)
+
+Returns the Pauli-Y gate controlled by a single qubit.
+"""
+controlled(gate::YGate, control_qubit::Qubit) = CYGate(control_qubit, gate.qubit)
+
 get_qubits(gate::YGate) = [gate.qubit]
 replace_qubits(gate::YGate, qubit_replacements::Dict{Qubit, Qubit}) = YGate(qubit_replacements[gate.qubit])
 

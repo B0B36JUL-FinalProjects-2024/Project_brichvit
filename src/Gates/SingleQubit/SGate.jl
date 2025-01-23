@@ -32,6 +32,13 @@ Returns the inverse of the S gate (a P(-π/2) gate).
 """
 inverse(gate::SGate) = PGate(-PI / 2, gate.qubit)
 
+"""
+	controlled(gate::SGate, control_qubit::Qubit)
+
+Returns the S gate controlled by a single qubit.
+"""
+controlled(gate::SGate, control_qubit::Qubit) = CSGate(control_qubit, gate.qubit)
+
 get_qubits(gate::SGate) = [gate.qubit]
 replace_qubits(gate::SGate, qubit_replacements::Dict{Qubit, Qubit}) = SGate(qubit_replacements[gate.qubit])
 

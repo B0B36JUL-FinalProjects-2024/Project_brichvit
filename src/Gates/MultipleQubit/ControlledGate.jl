@@ -63,6 +63,14 @@ Returns the inverse of the controlled gate (which is the controlled inverse of t
 """
 inverse(gate::ControlledGate{T}) where T <: Gate = ControlledGate(inverse(gate.base_gate), gate.control_qubits)
 
+"""
+	controlled(gate::ControlledGate, control_qubit::Qubit)
+
+Returns the gate controlled by an additional qubit.
+"""
+controlled(gate::ControlledGate{T}, control_qubit::Qubit) where T <: Gate =
+	ControlledGate{T}(gate.base_gate, [gate.control_qubits..., control_qubit])
+
 get_qubits(gate::ControlledGate) = [gate.control_qubits..., get_qubits(gate.base_gate)...]
 replace_qubits(gate::ControlledGate{T}, qubit_replacements::Dict{Qubit, Qubit}) where T <: Gate =
 	ControlledGate{T}(replace_qubits(gate.base_gate, qubit_replacements), [qubit_replacements[control_qubit] for control_qubit in gate.control_qubits])

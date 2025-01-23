@@ -39,6 +39,13 @@ Returns the inverse of the phase gate (a phase gate with the opposite angle).
 """
 inverse(gate::PGate) = PGate(-gate.theta, gate.qubit)
 
+"""
+	controlled(gate::PGate, control_qubit::Qubit)
+
+Returns the phase gate controlled by a single qubit.
+"""
+controlled(gate::PGate, control_qubit::Qubit) = CPGate(gate.theta, control_qubit, gate.qubit)
+
 get_qubits(gate::PGate) = [gate.qubit]
 replace_qubits(gate::PGate, qubit_replacements::Dict{Qubit, Qubit}) = PGate(gate.theta, qubit_replacements[gate.qubit])
 

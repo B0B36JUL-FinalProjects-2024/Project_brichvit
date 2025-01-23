@@ -32,6 +32,13 @@ Returns the inverse of the T gate (a P(-π/4) gate).
 """
 inverse(gate::TGate) = PGate(-PI / 4, gate.qubit)
 
+"""
+	controlled(gate::TGate, control_qubit::Qubit)
+
+Returns the T gate controlled by a single qubit.
+"""
+controlled(gate::TGate, control_qubit::Qubit) = CTGate(control_qubit, gate.qubit)
+
 get_qubits(gate::TGate) = [gate.qubit]
 replace_qubits(gate::TGate, qubit_replacements::Dict{Qubit, Qubit}) = TGate(qubit_replacements[gate.qubit])
 

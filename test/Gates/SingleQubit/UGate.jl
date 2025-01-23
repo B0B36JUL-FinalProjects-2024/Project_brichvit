@@ -223,4 +223,14 @@ const u_pi_2_pi_4_pi_4_mat = [sqrt(Sym(2)) / 2 (-1 - im) / 2; (1 + im) / 2 im * 
 		push!(qc, UGate(π / 2, π / 4, π / 4, q1))
 		@test simulate_unitary(qc) == 1.0I
 	end
+	@testset "controlled" begin
+		q1, q2 = Qubit("q1"), Qubit("q2")
+		
+		qc1 = QuantumCircuit(q1, q2)
+		push!(qc1, controlled(UGate(π / 2, π / 4, π / 4, q2), q1))
+
+		qc2 = QuantumCircuit(q1, q2)
+		push!(qc2, CUGate(π / 2, π / 4, π / 4, q1, q2))
+		@test simulate_unitary(qc1) == simulate_unitary(qc2)
+	end
 end
