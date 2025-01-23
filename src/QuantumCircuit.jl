@@ -49,25 +49,20 @@ function create_quantum_state_vector(qc::QuantumCircuit)
 	return state_vector
 end
 
-function add_measurement_probability!(measurement_probabilities::Dict{Dict{Int, Bool}, Sym}, current_values::Dict{Int, Bool}, measured_qids::Vector{Int}, state_vector::Vector{Sym})
-	if isempty(measured_qids)
+function get_measurement_probabilities(measured_qids::AbstractVector{Int}, state_vector::AbstractVector{Sym})
+	measurement_probabilities = Dict{Dict{Int, Bool}, Sym}()
+	qid = minimum(measured_qids)
+
+	Threads.@threads for slice_start = 1:(1 << qid):length(state_vector)
+		current_values = Dict{Int, Bool}(measured_qid => (slice_start - 1) & (1 << measured_qid) > 0 for measured_qid in measured_qids)
 		if current_values in keys(measurement_probabilities)
-			measurement_probabilities[copy(current_values)] += sum(abs.(state_vector) .^ 2)
+			measurement_probabilities[copy(current_values)] += sum(abs.(state_vector[slice_start:slice_start + 1 << qid - 1]) .^ 2)
 		else
-			measurement_probabilities[copy(current_values)] = sum(abs.(state_vector) .^ 2)
-		end
-	else
-		qid = measured_qids[1]
-		for slice_start = 1:(1 << (qid + 1)):length(state_vector)
-			current_values[qid] = 0
-			add_measurement_probability!(measurement_probabilities, current_values, measured_qids[2:end], state_vector[slice_start:slice_start + 1 << qid - 1])
-
-			current_values[qid] = 1
-			add_measurement_probability!(measurement_probabilities, current_values, measured_qids[2:end], state_vector[slice_start + 1 << qid:slice_start + 1 << (qid + 1) - 1])
-
-			delete!(current_values, qid)
+			measurement_probabilities[copy(current_values)] = sum(abs.(state_vector[slice_start:slice_start + 1 << qid - 1]) .^ 2)
 		end
 	end
+
+	return measurement_probabilities
 end
 
 function get_result_key(measurement_values::Dict{Int, Bool}, measured_qubits::Vector{Qubit}, qubit_order::Vector{Qubit})
@@ -90,7 +85,7 @@ Returns the simulated measurement probabilities after all of the instructions in
 The measurements are returned as a dictionary, where the keys are binary strings representing the measured bits
 and the values are the corresponding probabilities (expressions of type [SymPy.Sym](@ref)).
 """
-function simulate_measurements(qc::QuantumCircuit)
+function simulate_measurements(qc::QuantumCircuit; simplification::Bool = false)
 	state_vector = create_quantum_state_vector(qc)
 	measured_qubits = Qubit[]
 
@@ -99,13 +94,15 @@ function simulate_measurements(qc::QuantumCircuit)
 	end
 
 	measured_qids = sort(length(qc.qubits) .- indexin(measured_qubits, qc.qubits); rev = true)
-	measurement_probabilities = Dict{Dict{Int, Bool}, Sym}()
-
-	add_measurement_probability!(measurement_probabilities, Dict{Int, Bool}(), measured_qids, state_vector)
+	measurement_probabilities = get_measurement_probabilities(measured_qids, state_vector)
 
 	results = Dict{String, Sym}()
 	for (measurement_values, measurement_probability) in measurement_probabilities
 		if measurement_probability > 0
+			if simplification
+				measurement_probability = Sym.(simplify.(measurement_probability))
+			end
+
 			results[get_result_key(measurement_values, measured_qubits, qc.qubits)] = measurement_probability
 		end
 	end
@@ -119,11 +116,15 @@ end
 Returns the simulated state vector after all of the instructions in the circuit are run.
 The starting input vector is defined by the [create_quantum_state_vector](@ref) function.
 """
-function simulate_state_vector(qc::QuantumCircuit)
+function simulate_state_vector(qc::QuantumCircuit; simplification::Bool = false)
 	state_vector = create_quantum_state_vector(qc)
 
 	for instruction in qc.instructions
 		apply!(instruction, state_vector, qc.qubits)
+	end
+
+	if simplification
+		state_vector .= Sym.(simplify.(state_vector))
 	end
 
 	return state_vector
@@ -135,7 +136,7 @@ end
 Returns the unitary matrix corresponding to the quantum circuit.
 If the circuit contains instructions that are not unitary (gates), throws an [ArgumentError](@ref).
 """
-function simulate_unitary(qc::QuantumCircuit)
+function simulate_unitary(qc::QuantumCircuit; simplification::Bool = false)
 	state_vector_dim = 2 ^ length(qc.qubits)
 	unitary = zeros(Sym, (state_vector_dim, state_vector_dim))
 
@@ -149,6 +150,10 @@ function simulate_unitary(qc::QuantumCircuit)
 
 			apply!(instruction, view(unitary, :, col), qc.qubits)
 		end
+	end
+
+	if simplification
+		unitary .= Sym.(simplify.(unitary))
 	end
 
 	return unitary
