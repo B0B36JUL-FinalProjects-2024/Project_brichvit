@@ -41,7 +41,7 @@ end
 get_left_padding(instruction_width::Int, layer_width::Int) = (layer_width - instruction_width + 1) ÷ 2
 get_right_padding(instruction_width::Int, layer_width::Int) = (layer_width - instruction_width) ÷ 2
 
-function draw(qc::QuantumCircuit; max_overflow_width::Int = 120)
+function draw(qc::QuantumCircuit; max_overflow_width::Int = 100)
 	# Calculate dimensions
 	height = 2 * length(qc.qubits) + 1
 
@@ -168,6 +168,9 @@ function draw(qc::QuantumCircuit; max_overflow_width::Int = 120)
 	end
 
 	for line in lines
-		println("«" * chop(line; head = overflow_widths[end] - 1, tail = 0))
+		if length(overflow_widths) > 1
+			print("«")
+		end
+		println(chop(line; head = overflow_widths[end] - 1, tail = 0))
 	end
 end

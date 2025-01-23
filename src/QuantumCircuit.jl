@@ -85,7 +85,7 @@ Returns the simulated measurement probabilities after all of the instructions in
 The measurements are returned as a dictionary, where the keys are binary strings representing the measured bits
 and the values are the corresponding probabilities (expressions of type [SymPy.Sym](@ref)).
 """
-function simulate_measurements(qc::QuantumCircuit; simplification::Bool = false)
+function simulate_measurements(qc::QuantumCircuit; simplification::Bool = false, leave_out_zeros::Bool = false)
 	state_vector = create_quantum_state_vector(qc)
 	measured_qubits = Qubit[]
 
@@ -98,13 +98,15 @@ function simulate_measurements(qc::QuantumCircuit; simplification::Bool = false)
 
 	results = Dict{String, Sym}()
 	for (measurement_values, measurement_probability) in measurement_probabilities
-		if measurement_probability > 0
-			if simplification
-				measurement_probability = Sym.(simplify.(measurement_probability))
-			end
-
-			results[get_result_key(measurement_values, measured_qubits, qc.qubits)] = measurement_probability
+		if leave_out_zeros && measurement_probability == 0
+			continue
 		end
+
+		if simplification
+			measurement_probability = Sym.(simplify.(measurement_probability))
+		end
+
+		results[get_result_key(measurement_values, measured_qubits, qc.qubits)] = measurement_probability
 	end
 
 	return results
