@@ -84,4 +84,9 @@ include("Gates/CompositeGate.jl")
 include("Gates/MultipleQubit/ControlledCompositeGate.jl")
 include("Visualization/Draw.jl")
 
+# Function definition for the StatsPlotsExt extension
+function plot_measurements end
+
+export plot_measurements
+
 end

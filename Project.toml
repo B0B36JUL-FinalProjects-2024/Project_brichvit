@@ -9,6 +9,9 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 
+[weakdeps]
+StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
+
 [compat]
 julia = "1.10, 1.11"
 Test = "1.10, 1.11"
@@ -17,10 +20,14 @@ LinearAlgebra = "1.10, 1.11"
 Printf = "1.10, 1.11"
 PyCall = "1.96"
 SymPy = "2.2"
+StatsPlots = "0.15"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[extensions]
+StatsPlotsExt = "StatsPlots"
 
 [targets]
 test = ["Aqua", "Test"]
